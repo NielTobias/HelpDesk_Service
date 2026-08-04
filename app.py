@@ -1,21 +1,19 @@
-from flask import Flask, render_template
+from flask import Flask
+
+from config import Config
+from database import db
+
 
 app = Flask(__name__)
+
+app.config.from_object(Config)
+
+db.init_app(app)
 
 
 @app.route("/")
 def home():
-    return render_template("index.html")
-
-
-@app.route("/chamados")
-def chamados():
-    return render_template("chamados.html")
-
-
-@app.route("/dashboard")
-def dashboard():
-    return "<h1>Dashboard em construção</h1>"
+    return "Deus é  bom o tempo todo"
 
 
 if __name__ == "__main__":
