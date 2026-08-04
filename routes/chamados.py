@@ -1,17 +1,36 @@
-from flask import Blueprint, render_template
+from datetime import datetime
 
-chamados_bp = Blueprint(
-    "chamados",
-    __name__
-)
+from database import db
 
 
-@chamados_bp.route("/")
-def home():
-    return render_template("index.html")
+class Chamado(db.Model):
+    __tablename__ = "chamados"
 
+    id = db.Column(db.Integer, primary_key=True)
 
-@chamados_bp.route("/chamados")
-def chamados():
+    titulo = db.Column(db.String(120), nullable=False)
 
-    return render_template("chamados.html")
+    descricao = db.Column(db.Text, nullable=False)
+
+    categoria = db.Column(db.String(50), nullable=False)
+
+    prioridade = db.Column(db.String(20), nullable=False)
+
+    status = db.Column(
+        db.String(20),
+        nullable=False,
+        default="Aberto"
+    )
+
+    solicitante = db.Column(db.String(100), nullable=False)
+
+    tecnico = db.Column(db.String(100))
+
+    data_abertura = db.Column(
+        db.DateTime,
+        default=datetime.utcnow
+    )
+
+    data_fechamento = db.Column(
+        db.DateTime
+    )

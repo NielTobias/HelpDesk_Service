@@ -1,29 +1,43 @@
-from flask import Flask
+from datetime import datetime
 
-from config import Config
+from flask_login import UserMixin
+
 from database import db
-from routes.chamados import chamados_bp
-
-import models
 
 
-def create_app():
-    app = Flask(__name__)
+class Usuario(UserMixin, db.Model):
 
-    app.config.from_object(Config)
+    __tablename__ = "usuarios"
 
-    db.init_app(app)
+    id = db.Column(db.Integer, primary_key=True)
 
-    app.register_blueprint(chamados_bp)
+    nome = db.Column(
+        db.String(120),
+        nullable=False
+    )
 
-    return app
+    email = db.Column(
+        db.String(120),
+        unique=True,
+        nullable=False
+    )
 
+    senha_hash = db.Column(
+        db.String(255),
+        nullable=False
+    )
 
-app = create_app()
+    perfil = db.Column(
+        db.String(30),
+        default="usuario"
+    )
 
-with app.app_context():
-    db.create_all()
+    ativo = db.Column(
+        db.Boolean,
+        default=True
+    )
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    criado_em = db.Column(
+        db.DateTime,
+        default=datetime.utcnow
+    )
