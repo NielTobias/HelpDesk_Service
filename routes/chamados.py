@@ -1,36 +1,33 @@
-from datetime import datetime
+from flask import Blueprint, render_template
+from flask_login import login_required
 
-from database import db
+chamados_bp = Blueprint(
+    "chamados",
+    __name__
+)
 
 
-class Chamado(db.Model):
-    __tablename__ = "chamados"
+@chamados_bp.route("/")
+def home():
+    return render_template("home/index.html")
 
-    id = db.Column(db.Integer, primary_key=True)
 
-    titulo = db.Column(db.String(120), nullable=False)
+@chamados_bp.route("/chamados")
+@login_required
+def listar_chamados():
+    return render_template("chamados/listar.html")
 
-    descricao = db.Column(db.Text, nullable=False)
 
-    categoria = db.Column(db.String(50), nullable=False)
+@chamados_bp.route("/chamados/novo")
+@login_required
+def novo_chamado():
+    return render_template("chamados/novo.html")
 
-    prioridade = db.Column(db.String(20), nullable=False)
 
-    status = db.Column(
-        db.String(20),
-        nullable=False,
-        default="Aberto"
-    )
-
-    solicitante = db.Column(db.String(100), nullable=False)
-
-    tecnico = db.Column(db.String(100))
-
-    data_abertura = db.Column(
-        db.DateTime,
-        default=datetime.utcnow
-    )
-
-    data_fechamento = db.Column(
-        db.DateTime
+@chamados_bp.route("/chamados/editar/<int:id>")
+@login_required
+def editar_chamado(id):
+    return render_template(
+        "chamados/editar.html",
+        id=id
     )
