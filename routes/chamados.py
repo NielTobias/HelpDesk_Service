@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
+from models.chamado import Chamado
 
 chamados_bp = Blueprint(
     "chamados",
@@ -15,7 +16,15 @@ def home():
 @chamados_bp.route("/chamados")
 @login_required
 def listar_chamados():
-    return render_template("chamados/listar.html")
+
+    chamados = Chamado.query.order_by(
+        Chamado.data_abertura.desc()
+    ).all()
+
+    return render_template(
+        "chamados/listar.html",
+        chamados=chamados
+    )
 
 
 @chamados_bp.route("/chamados/novo")

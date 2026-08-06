@@ -10,7 +10,7 @@ Chamados
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <h2>Chamados</h2>
+        <h2>Lista de Chamados</h2>
 
         <a href="{{ url_for('chamados.novo_chamado') }}"
            class="btn btn-success">
@@ -21,11 +21,63 @@ Chamados
 
     </div>
 
+    {% if chamados %}
+
+    <table class="table table-striped table-hover">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>ID</th>
+                <th>Título</th>
+                <th>Categoria</th>
+                <th>Prioridade</th>
+                <th>Status</th>
+                <th>Solicitante</th>
+                <th>Abertura</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for chamado in chamados %}
+
+            <tr>
+
+                <td>{{ chamado.id }}</td>
+
+                <td>{{ chamado.titulo }}</td>
+
+                <td>{{ chamado.categoria }}</td>
+
+                <td>{{ chamado.prioridade }}</td>
+
+                <td>{{ chamado.status }}</td>
+
+                <td>{{ chamado.solicitante }}</td>
+
+                <td>{{ chamado.data_abertura.strftime('%d/%m/%Y %H:%M') }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
     <div class="alert alert-info">
 
-        Ainda não existem chamados cadastrados.
+        Nenhum chamado cadastrado.
 
     </div>
+
+    {% endif %}
 
 </div>
 
