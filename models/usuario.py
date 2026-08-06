@@ -20,8 +20,8 @@ class Usuario(UserMixin, db.Model):
         db.String(120),
         unique=True,
         nullable=False
-    )
-
+    )   # Nunca armazenamos a senha em texto puro.
+        # Apenas o hash gerado pelo Werkzeug.
     senha_hash = db.Column(
         db.String(255),
         nullable=False
