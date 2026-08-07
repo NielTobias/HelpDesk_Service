@@ -78,3 +78,17 @@ def editar_chamado(id):
         "chamados/editar.html",
         chamado=chamado
     )
+
+    @chamados_bp.route("/chamados/excluir/<int:id>", methods=["POST"])
+@login_required
+def excluir_chamado(id):
+
+    chamado = Chamado.query.get_or_404(id)
+
+    db.session.delete(chamado)
+    db.session.commit()
+
+    flash("Chamado excluído com sucesso!", "success")
+
+    return redirect(url_for("chamados.listar_chamados"))
+    
