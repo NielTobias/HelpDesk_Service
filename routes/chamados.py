@@ -79,7 +79,8 @@ def editar_chamado(id):
         chamado=chamado
     )
 
-    @chamados_bp.route("/chamados/excluir/<int:id>", methods=["POST"])
+
+@chamados_bp.route("/chamados/excluir/<int:id>", methods=["POST"])
 @login_required
 def excluir_chamado(id):
 
@@ -91,4 +92,3 @@ def excluir_chamado(id):
     flash("Chamado excluído com sucesso!", "success")
 
     return redirect(url_for("chamados.listar_chamados"))
-    
