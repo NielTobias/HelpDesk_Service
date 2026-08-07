@@ -1,5 +1,7 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required
+
+from database import db
 from models.chamado import Chamado
 
 chamados_bp = Blueprint(
@@ -27,9 +29,27 @@ def listar_chamados():
     )
 
 
-@chamados_bp.route("/chamados/novo")
+@chamados_bp.route("/chamados/novo", methods=["GET", "POST"])
 @login_required
 def novo_chamado():
+
+    if request.method == "POST":
+
+        chamado = Chamado(
+            titulo=request.form["titulo"],
+            descricao=request.form["descricao"],
+            categoria=request.form["categoria"],
+            prioridade=request.form["prioridade"],
+            solicitante=request.form["solicitante"]
+        )
+
+        db.session.add(chamado)
+        db.session.commit()
+
+        flash("Chamado criado com sucesso!", "success")
+
+        return redirect(url_for("chamados.listar_chamados"))
+
     return render_template("chamados/novo.html")
 
 

@@ -12,15 +12,19 @@ Novo Chamado
 
     <hr>
 
-    <form>
+    <form method="POST">
 
         <div class="mb-3">
 
             <label class="form-label">Título</label>
 
+            #título
+
             <input
-                type="text"
-                class="form-control">
+                   type="text"
+                   name="titulo"
+                   class="form-control"
+                   required>
 
         </div>
 
@@ -28,9 +32,48 @@ Novo Chamado
 
             <label class="form-label">Descrição</label>
 
+            #descrição
+
             <textarea
+                name="descricao"
                 class="form-control"
-                rows="5"></textarea>
+                rows="5"
+                required></textarea>
+
+        </div>
+
+        <div class="mb-3">
+            <select
+                name="categoria"
+                class="form-select">
+
+                <option>Hardware</option>
+                <option>Software</option>
+                <option>Rede</option>
+                <option>Impressora</option>
+
+            </select>
+
+            #prioridade
+             
+            <select
+             name="prioridade"
+             class="form-select">
+
+             <option>Baixa</option>
+             <option>Média</option>
+             <option>Alta</option>
+
+            </select>
+
+            #solicitante
+
+            <input
+                type="text"
+                name="solicitante"
+                class="form-control"
+                required>
+
 
         </div>
 
