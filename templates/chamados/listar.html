@@ -6,7 +6,7 @@ Chamados
 
 {% block conteudo %}
 
-<div class="container">
+<div class="container mt-4">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
@@ -23,7 +23,7 @@ Chamados
 
     {% if chamados %}
 
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover align-middle">
 
         <thead class="table-dark">
 
@@ -36,6 +36,7 @@ Chamados
                 <th>Status</th>
                 <th>Solicitante</th>
                 <th>Abertura</th>
+                <th>Ações</th>
 
             </tr>
 
@@ -53,13 +54,45 @@ Chamados
 
                 <td>{{ chamado.categoria }}</td>
 
-                <td>{{ chamado.prioridade }}</td>
+                <td>
 
-                <td>{{ chamado.status }}</td>
+                    {% if chamado.prioridade == "Alta" %}
+                        <span class="badge bg-danger">{{ chamado.prioridade }}</span>
+
+                    {% elif chamado.prioridade == "Média" %}
+                        <span class="badge bg-warning text-dark">{{ chamado.prioridade }}</span>
+
+                    {% else %}
+                        <span class="badge bg-success">{{ chamado.prioridade }}</span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {% if chamado.status == "Aberto" %}
+                        <span class="badge bg-primary">{{ chamado.status }}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ chamado.status }}</span>
+                    {% endif %}
+
+                </td>
 
                 <td>{{ chamado.solicitante }}</td>
 
-                <td>{{ chamado.data_abertura.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>{{ chamado.data_abertura.strftime("%d/%m/%Y %H:%M") }}</td>
+
+                <td>
+
+                    <a href="{{ url_for('chamados.editar_chamado', id=chamado.id) }}"
+                       class="btn btn-warning btn-sm">
+
+                        Editar
+
+                    </a>
+
+                </td>
 
             </tr>
 
