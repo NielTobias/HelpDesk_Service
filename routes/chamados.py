@@ -53,10 +53,28 @@ def novo_chamado():
     return render_template("chamados/novo.html")
 
 
-@chamados_bp.route("/chamados/editar/<int:id>")
+@chamados_bp.route("/chamados/editar/<int:id>", methods=["GET", "POST"])
 @login_required
 def editar_chamado(id):
+
+    chamado = Chamado.query.get_or_404(id)
+
+    if request.method == "POST":
+
+        chamado.titulo = request.form["titulo"]
+        chamado.descricao = request.form["descricao"]
+        chamado.categoria = request.form["categoria"]
+        chamado.prioridade = request.form["prioridade"]
+        chamado.status = request.form["status"]
+        chamado.tecnico = request.form["tecnico"]
+
+        db.session.commit()
+
+        flash("Chamado atualizado com sucesso!", "success")
+
+        return redirect(url_for("chamados.listar_chamados"))
+
     return render_template(
         "chamados/editar.html",
-        id=id
+        chamado=chamado
     )

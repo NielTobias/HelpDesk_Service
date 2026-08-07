@@ -6,18 +6,183 @@ Editar Chamado
 
 {% block conteudo %}
 
-<div class="container">
+<div class="container mt-4">
 
-    <h2>Editar Chamado</h2>
+    <div class="card shadow">
 
-    <hr>
+        <div class="card-header bg-warning">
 
-    <p>
+            <h3 class="mb-0">
+                Editar Chamado #{{ chamado.id }}
+            </h3>
 
-        Em breve será possível editar o chamado
-        <strong>#{{ id }}</strong>.
+        </div>
 
-    </p>
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="mb-3">
+
+                    <label class="form-label">Título</label>
+
+                    <input
+                        type="text"
+                        name="titulo"
+                        class="form-control"
+                        value="{{ chamado.titulo }}"
+                        required>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">Descrição</label>
+
+                    <textarea
+                        name="descricao"
+                        class="form-control"
+                        rows="5"
+                        required>{{ chamado.descricao }}</textarea>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">Categoria</label>
+
+                        <select
+                            name="categoria"
+                            class="form-select">
+
+                            <option value="Hardware"
+                                {% if chamado.categoria == "Hardware" %}selected{% endif %}>
+                                Hardware
+                            </option>
+
+                            <option value="Software"
+                                {% if chamado.categoria == "Software" %}selected{% endif %}>
+                                Software
+                            </option>
+
+                            <option value="Rede"
+                                {% if chamado.categoria == "Rede" %}selected{% endif %}>
+                                Rede
+                            </option>
+
+                            <option value="Impressora"
+                                {% if chamado.categoria == "Impressora" %}selected{% endif %}>
+                                Impressora
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">Prioridade</label>
+
+                        <select
+                            name="prioridade"
+                            class="form-select">
+
+                            <option value="Baixa"
+                                {% if chamado.prioridade == "Baixa" %}selected{% endif %}>
+                                Baixa
+                            </option>
+
+                            <option value="Média"
+                                {% if chamado.prioridade == "Média" %}selected{% endif %}>
+                                Média
+                            </option>
+
+                            <option value="Alta"
+                                {% if chamado.prioridade == "Alta" %}selected{% endif %}>
+                                Alta
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="row mt-3">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">Status</label>
+
+                        <select
+                            name="status"
+                            class="form-select">
+
+                            <option value="Aberto"
+                                {% if chamado.status == "Aberto" %}selected{% endif %}>
+                                Aberto
+                            </option>
+
+                            <option value="Em andamento"
+                                {% if chamado.status == "Em andamento" %}selected{% endif %}>
+                                Em andamento
+                            </option>
+
+                            <option value="Resolvido"
+                                {% if chamado.status == "Resolvido" %}selected{% endif %}>
+                                Resolvido
+                            </option>
+
+                            <option value="Fechado"
+                                {% if chamado.status == "Fechado" %}selected{% endif %}>
+                                Fechado
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">Técnico Responsável</label>
+
+                        <input
+                            type="text"
+                            name="tecnico"
+                            class="form-control"
+                            value="{{ chamado.tecnico or '' }}">
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        Salvar Alterações
+
+                    </button>
+
+                    <a
+                        href="{{ url_for('chamados.listar_chamados') }}"
+                        class="btn btn-secondary">
+
+                        Cancelar
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
 
