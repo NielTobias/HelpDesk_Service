@@ -4,32 +4,67 @@ from flask_login import login_required
 from database import db
 from models.chamado import Chamado
 
+
 chamados_bp = Blueprint(
     "chamados",
     __name__
 )
 
 
+# ==========================================
+# HOME
+# ==========================================
+
 @chamados_bp.route("/")
 def home():
-    return render_template("home/index.html")
 
+    return render_template(
+        "home/index.html"
+    )
+
+
+# ==========================================
+# LISTAR E PESQUISAR CHAMADOS
+# ==========================================
 
 @chamados_bp.route("/chamados")
 @login_required
 def listar_chamados():
 
-    chamados = Chamado.query.order_by(
+    pesquisa = request.args.get(
+        "pesquisa",
+        ""
+    )
+
+    consulta = Chamado.query
+
+    if pesquisa:
+
+        consulta = consulta.filter(
+            Chamado.titulo.ilike(
+                f"%{pesquisa}%"
+            )
+        )
+
+    chamados = consulta.order_by(
         Chamado.data_abertura.desc()
     ).all()
 
     return render_template(
         "chamados/listar.html",
-        chamados=chamados
+        chamados=chamados,
+        pesquisa=pesquisa
     )
 
 
-@chamados_bp.route("/chamados/novo", methods=["GET", "POST"])
+# ==========================================
+# NOVO CHAMADO
+# ==========================================
+
+@chamados_bp.route(
+    "/chamados/novo",
+    methods=["GET", "POST"]
+)
 @login_required
 def novo_chamado():
 
@@ -40,20 +75,39 @@ def novo_chamado():
             descricao=request.form["descricao"],
             categoria=request.form["categoria"],
             prioridade=request.form["prioridade"],
-            solicitante=request.form["solicitante"]
+            status="Aberto",
+            solicitante=request.form["solicitante"],
+            tecnico=request.form.get("tecnico")
         )
 
         db.session.add(chamado)
+
         db.session.commit()
 
-        flash("Chamado criado com sucesso!", "success")
+        flash(
+            "Chamado criado com sucesso!",
+            "success"
+        )
 
-        return redirect(url_for("chamados.listar_chamados"))
+        return redirect(
+            url_for(
+                "chamados.listar_chamados"
+            )
+        )
 
-    return render_template("chamados/novo.html")
+    return render_template(
+        "chamados/novo.html"
+    )
 
 
-@chamados_bp.route("/chamados/editar/<int:id>", methods=["GET", "POST"])
+# ==========================================
+# EDITAR CHAMADO
+# ==========================================
+
+@chamados_bp.route(
+    "/chamados/editar/<int:id>",
+    methods=["GET", "POST"]
+)
 @login_required
 def editar_chamado(id):
 
@@ -62,17 +116,29 @@ def editar_chamado(id):
     if request.method == "POST":
 
         chamado.titulo = request.form["titulo"]
+
         chamado.descricao = request.form["descricao"]
+
         chamado.categoria = request.form["categoria"]
+
         chamado.prioridade = request.form["prioridade"]
+
         chamado.status = request.form["status"]
+
         chamado.tecnico = request.form["tecnico"]
 
         db.session.commit()
 
-        flash("Chamado atualizado com sucesso!", "success")
+        flash(
+            "Chamado atualizado com sucesso!",
+            "success"
+        )
 
-        return redirect(url_for("chamados.listar_chamados"))
+        return redirect(
+            url_for(
+                "chamados.listar_chamados"
+            )
+        )
 
     return render_template(
         "chamados/editar.html",
@@ -80,15 +146,30 @@ def editar_chamado(id):
     )
 
 
-@chamados_bp.route("/chamados/excluir/<int:id>", methods=["POST"])
+# ==========================================
+# EXCLUIR CHAMADO
+# ==========================================
+
+@chamados_bp.route(
+    "/chamados/excluir/<int:id>",
+    methods=["POST"]
+)
 @login_required
 def excluir_chamado(id):
 
     chamado = Chamado.query.get_or_404(id)
 
     db.session.delete(chamado)
+
     db.session.commit()
 
-    flash("Chamado excluído com sucesso!", "success")
+    flash(
+        "Chamado excluído com sucesso!",
+        "success"
+    )
 
-    return redirect(url_for("chamados.listar_chamados"))
+    return redirect(
+        url_for(
+            "chamados.listar_chamados"
+        )
+    )

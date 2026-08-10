@@ -36,6 +36,7 @@ app.register_blueprint(auth_bp)
 with app.app_context():
     db.create_all()
 
+print(app.url_map)
 
 if __name__ == "__main__":
     app.run(debug=True)
