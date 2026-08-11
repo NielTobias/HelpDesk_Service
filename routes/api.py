@@ -194,10 +194,16 @@ def atualizar_chamado_api(id):
 # EXCLUIR CHAMADO
 # ==========================================
 
+api_bp = Blueprint("api", __name__, url_prefix="/api")
+
 @api_bp.route("/chamados/<int:id>", methods=["DELETE"])
-def excluir_chamado_api(id):
-    chamado = Chamado.query.get_or_404(id)
+def delete_chamado(id):
+    chamado = db.session.get(Chamado, id)  # SQLAlchemy 2.x
+    if not chamado:
+        return jsonify({"mensagem": "Chamado não encontrado."}), 404
+
     db.session.delete(chamado)
     db.session.commit()
-    return jsonify({"message": "Chamado excluído com sucesso"})
+
+    return jsonify({"mensagem": "Chamado excluído com sucesso!"}), 200
 

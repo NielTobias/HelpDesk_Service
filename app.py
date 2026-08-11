@@ -13,6 +13,8 @@ import models
 
 from routes.api import api_bp
 
+from flask import jsonify
+
 app = Flask(__name__)
 
 app.config.from_object(Config)
@@ -42,3 +44,7 @@ print(app.url_map)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
+   
