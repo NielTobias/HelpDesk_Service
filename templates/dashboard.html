@@ -135,4 +135,87 @@ Dashboard
 
 </div>
 
+<hr class="my-5">
+
+<div class="row">
+
+    <div class="col-md-8">
+
+        <div class="card shadow-sm">
+
+            <div class="card-header">
+                <strong>Chamados por Status</strong>
+            </div>
+
+            <div class="card-body">
+
+                <canvas id="graficoStatus"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx = document.getElementById("graficoStatus");
+
+new Chart(ctx, {
+
+    type: "bar",
+
+    data: {
+
+        labels: [
+            "Aberto",
+            "Em andamento",
+            "Resolvido",
+            "Fechado"
+        ],
+
+        datasets: [{
+
+            label: "Quantidade de chamados",
+
+            data: [
+                {{ chamados_abertos }},
+                {{ chamados_andamento }},
+                {{ chamados_resolvidos }},
+                {{ chamados_fechados }}
+            ]
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true,
+
+                ticks: {
+                    precision: 0
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+
 {% endblock %}
