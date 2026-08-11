@@ -163,6 +163,13 @@ Dashboard
 
 <script>
 
+const dataset = document.getElementById("chamados-data").dataset;
+const chartData = [
+    Number(dataset.abertos),
+    Number(dataset.andamento),
+    Number(dataset.resolvidos),
+    Number(dataset.fechados)
+];
 const ctx = document.getElementById("graficoStatus");
 
 new Chart(ctx, {
@@ -193,7 +200,7 @@ new Chart(ctx, {
 
     },
 
-    options: {
+    options:{
 
         responsive: true,
 

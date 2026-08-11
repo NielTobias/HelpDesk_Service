@@ -60,12 +60,12 @@ helpdesk-system/
 ## Roadmap
 
 - [x] Estrutura inicial do projeto
-- [ ] Configuração do SQLAlchemy
-- [ ] Criação do banco SQLite
-- [ ] Modelagem das entidades
-- [ ] CRUD de chamados
-- [ ] Sistema de login
-- [ ] Dashboard
+- [x] Configuração do SQLAlchemy
+- [x] Criação do banco SQLite
+- [x] Modelagem das entidades
+- [x] CRUD de chamados
+- [x] Sistema de login
+- [x] Dashboard
 - [ ] API REST
 - [ ] Docker
 - [ ] Deploy

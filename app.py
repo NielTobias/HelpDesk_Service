@@ -11,6 +11,8 @@ from models.usuario import Usuario
 
 import models
 
+from routes.api import api_bp
+
 app = Flask(__name__)
 
 app.config.from_object(Config)
@@ -29,9 +31,9 @@ login_manager.login_message_category = "warning"
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
-
 app.register_blueprint(chamados_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(api_bp)
 
 with app.app_context():
     db.create_all()
