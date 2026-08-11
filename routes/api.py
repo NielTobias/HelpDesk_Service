@@ -135,3 +135,69 @@ def criar_chamado_api():
             "tecnico": chamado.tecnico
         }
     }), 201   
+
+# ==========================================
+# ATUALIZAR CHAMADO
+# ==========================================
+
+@api_bp.route(
+    "/chamados/<int:id>",
+    methods=["PUT"]
+)
+def atualizar_chamado_api(id):
+
+    chamado = Chamado.query.get_or_404(id)
+
+    dados = request.get_json()
+
+    if not dados:
+        return jsonify({
+            "erro": "JSON não enviado."
+        }), 400
+
+    campos_permitidos = [
+        "titulo",
+        "descricao",
+        "categoria",
+        "prioridade",
+        "status",
+        "solicitante",
+        "tecnico"
+    ]
+
+    for campo in campos_permitidos:
+
+        if campo in dados:
+            setattr(
+                chamado,
+                campo,
+                dados[campo]
+            )
+
+    db.session.commit()
+
+    return jsonify({
+        "mensagem": "Chamado atualizado com sucesso!",
+        "chamado": {
+            "id": chamado.id,
+            "titulo": chamado.titulo,
+            "descricao": chamado.descricao,
+            "categoria": chamado.categoria,
+            "prioridade": chamado.prioridade,
+            "status": chamado.status,
+            "solicitante": chamado.solicitante,
+            "tecnico": chamado.tecnico
+        }
+    })
+
+# ==========================================
+# EXCLUIR CHAMADO
+# ==========================================
+
+@api_bp.route("/chamados/<int:id>", methods=["DELETE"])
+def excluir_chamado_api(id):
+    chamado = Chamado.query.get_or_404(id)
+    db.session.delete(chamado)
+    db.session.commit()
+    return jsonify({"message": "Chamado excluído com sucesso"})
+
