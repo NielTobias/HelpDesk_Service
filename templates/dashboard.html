@@ -1,0 +1,138 @@
+{% extends "layout/base.html" %}
+
+{% block titulo %}
+Dashboard
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="mb-4">
+
+    <h2>Dashboard</h2>
+
+    <p class="text-muted">
+        Visão geral dos chamados do HelpDesk.
+    </p>
+
+</div>
+
+
+<div class="row g-4">
+
+    <!-- TOTAL -->
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Total de Chamados
+                </h6>
+
+                <h2>
+                    {{ total_chamados }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ABERTOS -->
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Chamados Abertos
+                </h6>
+
+                <h2>
+                    {{ chamados_abertos }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- EM ANDAMENTO -->
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Em Andamento
+                </h6>
+
+                <h2>
+                    {{ chamados_andamento }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESOLVIDOS -->
+
+    <div class="col-md-6">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Resolvidos
+                </h6>
+
+                <h2>
+                    {{ chamados_resolvidos }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FECHADOS -->
+
+    <div class="col-md-6">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Fechados
+                </h6>
+
+                <h2>
+                    {{ chamados_fechados }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

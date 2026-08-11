@@ -22,6 +22,36 @@ def home():
         "home/index.html"
     )
 
+@chamados_bp.route("/dashboard")
+@login_required
+def dashboard():
+
+    total_chamados = Chamado.query.count()
+
+    chamados_abertos = Chamado.query.filter_by(
+        status="Aberto"
+    ).count()
+
+    chamados_andamento = Chamado.query.filter_by(
+        status="Em andamento"
+    ).count()
+
+    chamados_resolvidos = Chamado.query.filter_by(
+        status="Resolvido"
+    ).count()
+
+    chamados_fechados = Chamado.query.filter_by(
+        status="Fechado"
+    ).count()
+
+    return render_template(
+        "dashboard.html",
+        total_chamados=total_chamados,
+        chamados_abertos=chamados_abertos,
+        chamados_andamento=chamados_andamento,
+        chamados_resolvidos=chamados_resolvidos,
+        chamados_fechados=chamados_fechados
+    )
 
 # ==========================================
 # LISTAR E PESQUISAR CHAMADOS
