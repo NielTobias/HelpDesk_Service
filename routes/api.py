@@ -1,6 +1,8 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
 from models.chamado import Chamado
+
+from database import db
 
 
 api_bp = Blueprint(
@@ -74,3 +76,62 @@ def buscar_chamado_api(id):
             else None
         )
     })
+
+    # ==========================================
+# CRIAR CHAMADO
+# ==========================================
+
+@api_bp.route(
+    "/chamados",
+    methods=["POST"]
+)
+def criar_chamado_api():
+
+    dados = request.get_json()
+
+    if not dados:
+        return jsonify({
+            "erro": "JSON não enviado."
+        }), 400
+
+    campos_obrigatorios = [
+        "titulo",
+        "descricao",
+        "categoria",
+        "prioridade",
+        "solicitante"
+    ]
+
+    for campo in campos_obrigatorios:
+
+        if campo not in dados:
+            return jsonify({
+                "erro": f"Campo obrigatório ausente: {campo}"
+            }), 400
+
+    chamado = Chamado(
+        titulo=dados["titulo"],
+        descricao=dados["descricao"],
+        categoria=dados["categoria"],
+        prioridade=dados["prioridade"],
+        status="Aberto",
+        solicitante=dados["solicitante"],
+        tecnico=dados.get("tecnico")
+    )
+
+    db.session.add(chamado)
+    db.session.commit()
+
+    return jsonify({
+        "mensagem": "Chamado criado com sucesso!",
+        "chamado": {
+            "id": chamado.id,
+            "titulo": chamado.titulo,
+            "descricao": chamado.descricao,
+            "categoria": chamado.categoria,
+            "prioridade": chamado.prioridade,
+            "status": chamado.status,
+            "solicitante": chamado.solicitante,
+            "tecnico": chamado.tecnico
+        }
+    }), 201   
